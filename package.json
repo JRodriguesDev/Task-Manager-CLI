@@ -1,0 +1,16 @@
+{
+  "name": "task-manager-cli",
+  "description": "Um gerenciador de tarefas simples feito em TypeScript, executado direto no terminal.",
+  "main": "build/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx --env-file=.env src/index.ts",
+    "start": "node --env-file=.env ."
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}
