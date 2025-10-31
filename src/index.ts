@@ -1,1 +1,3 @@
-console.log("Hello Wolrd")
+import {init} from './prompts/index.js'
+
+init()

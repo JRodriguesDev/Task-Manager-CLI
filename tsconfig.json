@@ -12,9 +12,14 @@
         "rootDir": "./src",
         "outDir": "./build",
 
-        "baseUrl": "./src",
-        "paths": {
+        "ignoreDeprecations": "6.0",
 
+        "baseUrl": "./src", 
+        "paths": {
+            "#interfaces": ["./utils/interfaces/index.ts"],
+            "#colors": ["./utils/chalk/colors.ts"],
+            "#functions": ["./utils/functions/index.ts"],
+            "#controllers/*" : ["./controllers/*"]
         }
 
     },
