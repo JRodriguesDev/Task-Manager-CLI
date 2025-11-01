@@ -1,3 +1,9 @@
-import {init} from './prompts/index.js'
+import fs from 'fs/promises'
 
-init()
+import {init} from './prompts/index.js'
+import {chalk_colors} from '#colors'
+import {recover_db} from '#functions'
+
+recover_db()
+
+//init()

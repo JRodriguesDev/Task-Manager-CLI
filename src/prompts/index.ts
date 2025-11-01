@@ -34,6 +34,7 @@ const init_cli = async () => {
     switch(answer) {
         case InitChoices[0]:
             const res = await register_cli()
+            console.clear()
             init_cli()
             break;
     }
