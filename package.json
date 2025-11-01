@@ -22,16 +22,22 @@
   },
   "imports": {
     "#interfaces": [
-      "./src/utils/interfaces/index.js"
+      "./build/utils/interfaces/index.js"
     ],
     "#colors": [
-      "./src/utils/chalk/colors.js"
+      "./build/utils/chalk/colors.js"
     ],
     "#functions": [
-      "./utils/functions/index.ts"
+      "./build/utils/functions/index.js"
     ],
     "#controllers/*": [
-      "./src/controllers/*"
+      "./build/controllers/*"
+    ],
+    "#clis" : [
+      "./build/clis/index.js"
+    ],
+    "#models/*": [
+      "./build/models/*"
     ]
   }
 }

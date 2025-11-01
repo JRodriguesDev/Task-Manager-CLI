@@ -1,5 +1,7 @@
 import { select, Separator } from '@inquirer/prompts';
-import {register_cli} from './register.js'
+import {register_cli, login_cli} from 'clis/index.js'
+
+import {chalk_colors} from '#colors'
 
 enum InitChoices {
     'Register',
@@ -8,18 +10,19 @@ enum InitChoices {
 }
 
 const init_cli = async () => {
+    console.clear()
     const answer = await select({
         message: 'Welcome to Task Manager CLI',
         choices: [
             {
                 name: InitChoices[0],
                 value: InitChoices[0],
-                description: 'User Login'
+                description: 'Register new User'
             },
             {
                 name: InitChoices[1],
                 value: InitChoices[1],
-                description: 'Register new User'
+                description: 'User Login'
             },
 
             new Separator(),
@@ -33,9 +36,11 @@ const init_cli = async () => {
 
     switch(answer) {
         case InitChoices[0]:
-            const res = await register_cli()
-            console.clear()
+            await register_cli()
             init_cli()
+            break;
+        case InitChoices[1]:
+            login_cli()
             break;
     }
 }

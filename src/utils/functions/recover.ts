@@ -11,7 +11,7 @@ const recover = async (): Promise<void> => {
         }
     } else {
         await fs.mkdir('./db')
-        await fs.writeFile('./db/users.json', [''], 'utf-8')
+        await fs.writeFile('./db/users.json', '', 'utf-8')
         console.log(chalk_colors.sucess('Created db sucess...'))
     }
     console.log(chalk_colors.complete('Verify Sucess'))

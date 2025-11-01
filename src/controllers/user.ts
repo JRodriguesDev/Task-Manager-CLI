@@ -1,4 +1,4 @@
-import { create_user } from "models/user.js";
+import { create_user } from '#models/user.js'
 
 import {User} from '#interfaces'
 
