@@ -5,13 +5,15 @@ import bcrypt from "bcryptjs"
 import {open_users_db} from '#functions'
 import {User} from '#interfaces'
 import {init} from 'clis/index.js'
+import {UserCli} from '#clis'
 
 export const login_cli = async () => {
     const data = await open_users_db()
     const users = data
                     .filter((el: User) => typeof(el.name) == 'string' ? el.name : '' )
                     .map((el: User) => {return {'name': el.name, 'value': el.name}})
-    
+    if (users.length == 0) return init()
+
     console.clear()
     const answer = await inquirer.prompt([
         {
@@ -32,5 +34,5 @@ export const login_cli = async () => {
     ])
 
     const password = data.find((el:User) => el.name == answer.user)?.password
-    await bcrypt.compare(answer.password, password) ? console.log('foi') : init()
+    await bcrypt.compare(answer.password, password) ? new UserCli(answer.user) : init()
 }

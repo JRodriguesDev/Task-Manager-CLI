@@ -21,7 +21,8 @@
             "#functions": ["./utils/functions/index.ts"],
             "#controllers/*" : ["./controllers/*"],
             "#clis" : ["./clis/index.ts"],
-            "#models/*": ["./models/*"]
+            "#models/*": ["./models/*"],
+            "#manger" : ["./manager/index.ts"]
         }
 
     },
