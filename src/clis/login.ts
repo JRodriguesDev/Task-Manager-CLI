@@ -12,7 +12,7 @@ export const login_cli = async () => {
     const users = data
                     .filter((el: User) => typeof(el.name) == 'string' ? el.name : '' )
                     .map((el: User) => {return {'name': el.name, 'value': el.name}})
-    if (users.length == 0) return init()
+    if (users.length == 0) return no_users_cli()
 
     console.clear()
     const answer = await inquirer.prompt([
@@ -35,4 +35,22 @@ export const login_cli = async () => {
 
     const password = data.find((el:User) => el.name == answer.user)?.password
     await bcrypt.compare(answer.password, password) ? new UserCli(answer.user) : init()
+}
+
+const no_users_cli = async () => {
+    const answer = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'options',
+            message: 'No Users Avaliable',
+            choices: [
+                {
+                    name: 'Back',
+                    value: 'Back'
+                }
+            ]
+        }
+    ])
+
+    if (answer.options == 'Back') init()
 }
