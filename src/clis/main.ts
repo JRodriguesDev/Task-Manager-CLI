@@ -1,5 +1,4 @@
 import inquirer from "inquirer"
-import {v4 as uuid} from 'uuid'
 
 import {Tasks} from '#manger'
 import {init} from '#clis'
@@ -44,13 +43,13 @@ export class UserCli extends Tasks {
         switch(answer.option) {
             case 'tasks':
                 this.show_tasks_cli()
-                break;
+                return
             case 'menu':
                 init()
-                break;
+                return
             case 'delete':
                 this.delete_user(this.user)
-                break;
+                return
         }
     }
 
@@ -65,7 +64,7 @@ export class UserCli extends Tasks {
         ])
         if (answer.value == false)  return this.main_cli()
         await delete_user_db(name)
-        init()
+        return init()
     }
 
     private async show_tasks_cli() {
@@ -91,7 +90,7 @@ export class UserCli extends Tasks {
             }
         ])
         if (answer.option == 'create') return this.create_task_cli()
-        this.view_task(answer.option)
+        return this.view_task(answer.option)
     }
 
     private async view_task(name: string) {
@@ -136,16 +135,16 @@ export class UserCli extends Tasks {
         switch(answer.option) {
             case 'status':
                 this.update_task(name, answer.option)
-                break;
+                return
             case 'description':
                 this.update_task(name, answer.option)
-                break;
+                return
             case 'delete':
                 this.delete_task(name)
-                break;
+                return
             case 'back':
                 this.main_cli()
-                break;
+                return
         }
     }
 
@@ -172,10 +171,10 @@ export class UserCli extends Tasks {
     switch (answer.options) {
         case 'Create Task':
             this.create_task_cli()
-            break;
+            return
         case 'Back':
             this.main_cli()
-            break;
+            return
         }
     }
 
@@ -211,7 +210,7 @@ export class UserCli extends Tasks {
             }
         ])
         await this.create(answer)
-        this.main_cli()
+        return this.main_cli()
     }
 
     private async update_task(name:string, value:string) {
@@ -228,6 +227,7 @@ export class UserCli extends Tasks {
                 }
             ])
         this.update(name, value, answer.description)
+        return this.show_tasks_cli()
         } else if (value == 'status') {
             const answer = await inquirer.prompt([
                 {
@@ -250,7 +250,8 @@ export class UserCli extends Tasks {
                     ]
                 }
             ])
-        this.update(name, value, answer.option)
+        await this.update(name, value, answer.option)
+        return this.show_tasks_cli()
         }
     }
 
@@ -265,6 +266,6 @@ export class UserCli extends Tasks {
         ])
         if (answer.value == false) return this.view_task(name)
         await this.delete(name)
-        this.main_cli()
+        return this.main_cli()
     }
 }

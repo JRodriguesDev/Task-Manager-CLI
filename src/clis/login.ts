@@ -1,11 +1,9 @@
 import inquirer from "inquirer"
-import { Separator } from "@inquirer/select"
 import bcrypt from "bcryptjs"
 
 import {open_users_db} from '#functions'
 import {User} from '#interfaces'
-import {init} from 'clis/index.js'
-import {UserCli} from '#clis'
+import {init, UserCli} from '#clis'
 
 export const login_cli = async () => {
     const data = await open_users_db()
@@ -33,7 +31,12 @@ export const login_cli = async () => {
     ])
 
     const password = data.find((el:User) => el.name == answer.user)?.password
-    await bcrypt.compare(answer.password, password) ? new UserCli(answer.user) : init()
+
+    if (await bcrypt.compare(answer.password, password)) {
+        new UserCli(answer.user)
+        return
+    } 
+    return init()
 }
 
 const no_users_cli = async () => {
@@ -51,5 +54,5 @@ const no_users_cli = async () => {
         }
     ])
 
-    if (answer.options == 'Back') init()
+    if (answer.options == 'Back') return init()
 }

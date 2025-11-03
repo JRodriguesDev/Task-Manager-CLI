@@ -16,5 +16,5 @@ export const credits_cli = async () => {
             choices: [{name: 'Back', value: 'back'}]
         }
     ])
-    init()
+    return init()
 }

@@ -1,7 +1,5 @@
 import { select, Separator } from '@inquirer/prompts';
-import {register_cli, login_cli, credits_cli, exit_cli} from 'clis/index.js'
-
-import {chalk_colors} from '#colors'
+import {register_cli, login_cli, credits_cli, exit_cli} from '#clis'
 
 enum InitChoices {
     'Register',
@@ -10,7 +8,7 @@ enum InitChoices {
     'Exit'
 }
 
-const init_cli = async () => {
+const init_cli = async (): Promise<void> => {
     console.clear()
     const answer = await select({
         message: 'Welcome to Task Manager CLI',
@@ -43,17 +41,13 @@ const init_cli = async () => {
     switch(answer) {
         case InitChoices[0]:
             await register_cli()
-            init_cli()
-            break;
+            return init_cli()
         case InitChoices[1]:
-            login_cli()
-            break;
+            return login_cli()
         case InitChoices[2]:
-            credits_cli()
-            break;
+            return credits_cli()
         case InitChoices[3]:
-            exit_cli()
-            break;
+            return exit_cli()
     }
 }
 
