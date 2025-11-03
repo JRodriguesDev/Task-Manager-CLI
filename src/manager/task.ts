@@ -1,22 +1,41 @@
 import fs from 'fs/promises'
-import {v4 as uuid} from 'uuid'
 
 import {Task} from '#interfaces'
 
 export class Tasks {
-    protected user_path: string
+    private user_path: string
+
     constructor(user_path:string) {
-        this.user_path = user_path
+        this.user_path = `./db/${user_path}/tasks.json`
     }
 
-    public async show_tasks() {
-        const data = await fs.readFile(`./db/${this.user_path}/tasks.json`, 'utf-8')
-        return data.length > 0 ? JSON.parse(data) : []
+    protected async show() {
+        const data = await fs.readFile(this.user_path, 'utf-8')
+        const tasks = data.length > 0 ? JSON.parse(data) : []
+        return tasks.filter((el:Task) => typeof(el.name) == 'string')
     }
 
-    public async create_task(task: Task) {
-        const data = JSON.parse(await fs.readFile(`./db/${this.user_path}/tasks.json`, 'utf-8'))
-        data.push({...task, 'id': uuid(), 'status': 'pending'})
-        await fs.writeFile(`./db/${this.user_path}/tasks.json`, JSON.stringify(data, null, 2))
+    protected async create(task: Task) {
+        const data = await fs.readFile(this.user_path, 'utf-8')
+        const res = data.length > 0 ? JSON.parse(data): [{}]
+        res.push(task)
+        await fs.writeFile(this.user_path, JSON.stringify(res, null, 3))
+    }
+
+    protected async update(name: string, category: string, value: Task) {
+        const data = await fs.readFile(this.user_path, 'utf-8')
+        const tasks = JSON.parse(data)
+        const index: number = tasks.findIndex((el: Task) => el.name == name)
+        const task = tasks.find((el: Task) => el.name == name)
+        const new_tasks = {...task, [category]: value}
+        tasks[index] = new_tasks
+        await fs.writeFile(this.user_path, JSON.stringify(tasks, null, 3))
+    }
+
+    protected async delete(name: string) {
+        const data = await fs.readFile(this.user_path, 'utf-8')
+        const tasks = JSON.parse(data)
+        const new_taks = tasks.filter((el: Task) => el.name !== name)
+        await fs.writeFile(this.user_path, JSON.stringify(new_taks, null, 3))
     }
 }

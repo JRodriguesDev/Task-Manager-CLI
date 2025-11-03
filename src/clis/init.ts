@@ -1,12 +1,13 @@
 import { select, Separator } from '@inquirer/prompts';
-import {register_cli, login_cli} from 'clis/index.js'
+import {register_cli, login_cli, credits_cli, exit_cli} from 'clis/index.js'
 
 import {chalk_colors} from '#colors'
 
 enum InitChoices {
     'Register',
     'Login',
-    'Credits'
+    'Credits',
+    'Exit'
 }
 
 const init_cli = async () => {
@@ -30,6 +31,11 @@ const init_cli = async () => {
                 name: InitChoices[2],
                 value: InitChoices[2],
                 description: 'Description and Credits'
+            },
+            {
+                name: InitChoices[3],
+                value: InitChoices[3],
+                description: 'Exit...'
             }
         ]
     })
@@ -41,6 +47,12 @@ const init_cli = async () => {
             break;
         case InitChoices[1]:
             login_cli()
+            break;
+        case InitChoices[2]:
+            credits_cli()
+            break;
+        case InitChoices[3]:
+            exit_cli()
             break;
     }
 }

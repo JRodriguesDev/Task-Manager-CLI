@@ -23,7 +23,6 @@ export const login_cli = async () => {
             choices: [
                 ...users,
             ],
-            
         },
         {
             type: 'password',
